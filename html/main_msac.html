@@ -1,0 +1,175 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>main_msac</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-04-23"><meta name="DC.source" content="main_msac.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">clc;
+clear <span class="string">all</span>;
+I1= imread(<span class="string">'gang1.bmp'</span>);
+I1=rgb2gray(I1);  <span class="comment">%&#25226;RGB&#22270;&#20687;&#21464;&#25104;&#28784;&#24230;&#22270;&#20687;</span>
+I2= imread(<span class="string">'gang2.bmp'</span>);
+I2=rgb2gray(I2);
+
+
+<span class="comment">%&#23547;&#25214;&#29305;&#24449;&#28857;</span>
+<span class="comment">% points1 = detectHarrisFeatures(I1);  %&#35835;&#21462;&#29305;&#24449;&#28857;,'MinQuality',0.005</span>
+<span class="comment">% points2 = detectHarrisFeatures(I2);</span>
+ points1 = detectKAZEFeatures(I1);
+ points2 = detectKAZEFeatures(I2);
+<span class="comment">% points1 = detectMSERFeatures(I1);</span>
+<span class="comment">% points2 = detectMSERFeatures(I2);</span>
+<span class="comment">% points1 = detectBRISKFeatures(I1);</span>
+<span class="comment">% points2 = detectBRISKFeatures(I2);</span>
+
+<span class="comment">%Extract the features.&#35745;&#31639;&#25551;&#36848;&#21521;&#37327;</span>
+[f1, vpts1] = extractHOGFeatures(I1, points1);
+<span class="comment">% I1&#20026;3-D&#24425;&#33394;&#22270;&#20687;&#25110;2-D&#28784;&#24230;&#22270;&#20687;&#65292;f1&#20026;1xN&#30340;HOG&#25551;&#36848;&#23376;&#21521;&#37327;&#65292;N&#20026;&#25551;&#36848;&#23376;&#30340;&#38271;&#24230;&#65292;&#35813;&#25551;&#36848;&#23376;&#26159;&#36755;&#20837;&#22270;&#20687;&#21306;&#22495;&#30340;&#23616;&#37096;&#24418;&#29366;&#20449;&#24687;&#32534;&#30721;&#12290;&#24403;&#25351;&#23450;Points1&#65288;&#21516;extractFeatures&#20989;&#25968;&#36755;&#20837;Points&#65289;&#26102;&#65292;&#21017;&#33719;&#21462;&#25351;&#23450;&#28857;&#38468;&#36817;&#30340;HOG&#25551;&#36848;&#23376;&#65292;visualization&#34920;&#31034;&#21487;&#29992;&#20110;&#20219;&#20309;&#21487;&#35270;&#21270;&#30340;&#20989;&#25968;&#30340;&#36755;&#20837;&#21442;&#25968;&#65292;&#20363;&#22914;plot(visualization)&#65292;Name&#20026;&#29992;&#19968;&#23545;&#21333;&#24341;&#21495;&#21253;&#21547;&#30340;&#23383;&#31526;&#20018;&#65292;Value&#20026;&#23545;&#24212;Name&#30340;&#20540;&#12290;</span>
+[f2, vpts2] = extractHOGFeatures(I2, points2);
+
+<span class="comment">%&#36827;&#34892;&#21305;&#37197;</span>
+indexPairs = matchFeatures(f1, f2,<span class="string">'Method'</span>,<span class="string">'NearestNeighborSymmetric'</span>,<span class="string">'MatchThreshold'</span>,100) ;
+<span class="comment">%&#29992;'Method','NearestNeighborSymmetric'&#65292;&#38408;&#20540;&#35843;&#33410;&#29992;'MatchThreshold',&#33539;&#22260;0-100&#65292;&#34920;&#31034;&#36873;&#25321;&#26368;&#24378;&#30340;&#21305;&#37197;&#30340;&#30334;&#20998;&#27604;&#65292;&#36234;&#22823;&#21305;&#37197;&#28857;&#36234;&#22810;</span>
+<span class="comment">%&#29992;'Method','NearestNeighborRatio'&#65292;&#38408;&#20540;&#35843;&#33410;'MaxRatio',0.7&#65292;&#33539;&#22260;0-1&#65292;&#40664;&#35748;0.6&#65292;&#36739;&#22823;&#35813;&#20540;&#33719;&#24471;&#36739;&#22810;&#21305;&#37197;</span>
+matched_pts1 = vpts1(indexPairs(:, 1));
+matched_pts2 = vpts2(indexPairs(:, 2));
+
+resultpairs1 = matched_pts1.Location; <span class="comment">%&#23384;&#20648;&#21305;&#37197;&#28857;&#22352;&#26631;</span>
+resultpairs2 = matched_pts2.Location;
+
+<span class="comment">%&#26174;&#31034;&#21305;&#37197;</span>
+figure(<span class="string">'name'</span>,<span class="string">'&#21305;&#37197;&#21518;&#30340;&#22270;&#20687;'</span>);
+showMatchedFeatures(I1,I2,matched_pts1,matched_pts2,<span class="string">'montage'</span>);
+legend(<span class="string">'matched points 1'</span>,<span class="string">'matched points 2'</span>);
+
+ <span class="comment">%MSAC&#21435;&#38500;&#35823;&#21305;&#37197;&#28857;</span>
+[tform, inlierBoxPoints, inlierScenePoints] = estimateGeometricTransform(matched_pts1, matched_pts2, <span class="string">'projective'</span>);
+
+<span class="comment">%  % ransac&#21435;&#38500;&#35823;&#21305;&#37197;&#28857;</span>
+<span class="comment">%  Ipts1=(resultpairs1)';</span>
+<span class="comment">%  Ipts2=(resultpairs2)';</span>
+<span class="comment">%  [H, inliers] = ransacfithomography(Ipts1,Ipts2, .05);</span>
+<span class="comment">%  inlierBoxPoints = [Ipts1(2,inliers)' Ipts1(1,inliers)'];</span>
+<span class="comment">%  inlierScenePoints = [Ipts2(2,inliers)' Ipts2(1,inliers)'];</span>
+figure;
+showMatchedFeatures(I1, I2, inlierBoxPoints, inlierScenePoints, <span class="string">'montage'</span>,<span class="string">'Parent'</span>,axes);
+title(<span class="string">'MSAC&#21435;&#38500;&#35823;&#21305;&#37197;&#28857;'</span>);
+</pre><pre class="codeoutput">&#35686;&#21578;: Maximum number of trials reached. Consider increasing the maximum
+distance or decreasing the desired confidence. 
+</pre><img vspace="5" hspace="5" src="main_msac_01.png" alt=""> <img vspace="5" hspace="5" src="main_msac_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+
+clc;
+clear all;
+I1= imread('gang1.bmp');  
+I1=rgb2gray(I1);  %把RGB图像变成灰度图像
+I2= imread('gang2.bmp');   
+I2=rgb2gray(I2);
+
+
+%寻找特征点
+% points1 = detectHarrisFeatures(I1);  %读取特征点,'MinQuality',0.005
+% points2 = detectHarrisFeatures(I2);
+ points1 = detectKAZEFeatures(I1); 
+ points2 = detectKAZEFeatures(I2); 
+% points1 = detectMSERFeatures(I1); 
+% points2 = detectMSERFeatures(I2); 
+% points1 = detectBRISKFeatures(I1); 
+% points2 = detectBRISKFeatures(I2);  
+ 
+%Extract the features.计算描述向量  
+[f1, vpts1] = extractHOGFeatures(I1, points1); 
+% I1为3-D彩色图像或2-D灰度图像，f1为1xN的HOG描述子向量，N为描述子的长度，该描述子是输入图像区域的局部形状信息编码。当指定Points1（同extractFeatures函数输入Points）时，则获取指定点附近的HOG描述子，visualization表示可用于任何可视化的函数的输入参数，例如plot(visualization)，Name为用一对单引号包含的字符串，Value为对应Name的值。
+[f2, vpts2] = extractHOGFeatures(I2, points2);  
+ 
+%进行匹配  
+indexPairs = matchFeatures(f1, f2,'Method','NearestNeighborSymmetric','MatchThreshold',100) ;
+%用'Method','NearestNeighborSymmetric'，阈值调节用'MatchThreshold',范围0-100，表示选择最强的匹配的百分比，越大匹配点越多
+%用'Method','NearestNeighborRatio'，阈值调节'MaxRatio',0.7，范围0-1，默认0.6，较大该值获得较多匹配
+matched_pts1 = vpts1(indexPairs(:, 1));
+matched_pts2 = vpts2(indexPairs(:, 2));
+ 
+resultpairs1 = matched_pts1.Location; %存储匹配点坐标
+resultpairs2 = matched_pts2.Location;
+ 
+%显示匹配
+figure('name','匹配后的图像'); 
+showMatchedFeatures(I1,I2,matched_pts1,matched_pts2,'montage');  
+legend('matched points 1','matched points 2'); 
+
+ %MSAC去除误匹配点
+[tform, inlierBoxPoints, inlierScenePoints] = estimateGeometricTransform(matched_pts1, matched_pts2, 'projective');
+
+%  % ransac去除误匹配点
+%  Ipts1=(resultpairs1)';
+%  Ipts2=(resultpairs2)';
+%  [H, inliers] = ransacfithomography(Ipts1,Ipts2, .05);
+%  inlierBoxPoints = [Ipts1(2,inliers)' Ipts1(1,inliers)'];
+%  inlierScenePoints = [Ipts2(2,inliers)' Ipts2(1,inliers)'];
+figure;
+showMatchedFeatures(I1, I2, inlierBoxPoints, inlierScenePoints, 'montage','Parent',axes);
+title('MSAC去除误匹配点');
+##### SOURCE END #####
+--></body></html>
